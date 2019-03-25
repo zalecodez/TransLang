@@ -6,7 +6,7 @@ const spawn = require('child_process').spawn,
 exports.translate = function(req, res){
   const text = req.query.text;
   if(!text){
-    return Helper.send400(res, "Invalid Request");
+    return Helper.send400(res, "Usage: /api/translate?text=sentence to translate");
   }
 
   console.log(req.query);
