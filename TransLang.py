@@ -4,8 +4,6 @@ from google.cloud import translate
 from google.cloud import texttospeech
 
 path = os.path.dirname(__file__)
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path+'/credentials/translang-234304-576795a36648.json'
-
 
 def main():
     if(len(sys.argv) != 2):

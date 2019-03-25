@@ -8,6 +8,14 @@ exports.sendResponse = function(res, err, successMessage, obj){
     return exports.send200(res, successMessage, obj);
 };
 
+exports.send500 = function(res, err){
+    return res.status(500).send({
+        success: 'false',
+        message: err
+    });
+};
+
+
 exports.send404 = function(res, err){
     return res.status(404).send({
         success: 'false',
