@@ -1,0 +1,25 @@
+{
+  "name": "translang",
+  "version": "1.0.0",
+  "description": "real time language translation",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zalecodez/TransLang.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zalecodez/TransLang/issues"
+  },
+  "homepage": "https://github.com/zalecodez/TransLang#readme",
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10",
+    "python-shell": "^1.0.7"
+  }
+}
