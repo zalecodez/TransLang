@@ -5,6 +5,10 @@ const spawn = require('child_process').spawn,
 
 exports.translate = function(req, res){
   const text = req.query.text;
+  if(!text){
+    return Helper.send400(res, "Invalid Request");
+  }
+
   console.log(req.query);
   console.log(`About to call python TransLang.py ${text}`);
 
