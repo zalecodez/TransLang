@@ -17,7 +17,7 @@ def main():
     inps = len(sys.argv)
     if (inps < 1):
         print("usage: python TransLang.py <aud> [inp] [out]\n\n")
-        print("Takes in a wav file in 'inp' language and spits out a translated\
+        print("Takes in audio in 'inp' language and spits out a translated\
               mp3 file in 'out'  language")
         print("positional arguments: \naud\tA wav file containing audio in\
                input language\n\n")
