@@ -6,9 +6,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     Helper = require('./api/controllers/helper');
 
+server.use(express.static('public'));
 
-server.use(bodyParser.urlencoded({extended: true}));
-server.use(bodyParser.json());
+server.use(bodyParser.json())
+    .use(bodyParser.urlencoded({extended: true}))
 
 var routes = require('./api/routes/routeinit');
 routes(server);

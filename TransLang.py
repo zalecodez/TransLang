@@ -41,7 +41,7 @@ def main():
     response = speech_client.synthesize_speech(synthesis_input, voice, audio_config)
 
     #The response's audio_content is binary
-    with open(path+'/public/output.mp3', 'wb') as out:
+    with open('public/output.mp3', 'wb') as out:
         #Write the response to the output file.
         out.write(response.audio_content)
         print(u'{{text: {}, translation: {}, outputFile: {}}}'.format(text, translation['translatedText'], "output.mp3"))

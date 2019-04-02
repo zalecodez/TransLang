@@ -5,9 +5,7 @@ var express = require('express'),
 
 //TODO create documentation and return here
 router.get('/', function(req, res){
-    res.status(200).send({
-        endpoints: ['/api/translate'],
-    });
+    res.status(200).redirect('/client.html');
 });
 
 module.exports = router;
