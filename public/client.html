@@ -4,8 +4,8 @@
     </head>
     <body>
         <h1>TransLang!</h1>
-        <form method='POST' enctype="multipart/form-data"  action='http://localhost:3000/api/v2/translate'>
-            <input type='file' name='speechInput' />
+        <form method='POST' enctype="multipart/form-data"  action='/api/v2/translate'>
+            <input type='file' name='speechInput' accept='audio/*'/>
             <input type='submit'/>
         </form>
     </body>
