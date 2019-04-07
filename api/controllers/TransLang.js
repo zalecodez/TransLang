@@ -43,6 +43,7 @@ exports.translate = function(req, res){
 
 exports.translateV2 = function(req,res){
     var input = req.file;
+    console.log(req.body);
     console.log(input);
 
     if(!input){

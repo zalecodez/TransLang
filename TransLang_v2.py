@@ -6,12 +6,7 @@ from google.cloud import translate
 from google.cloud import texttospeech
 
 path = os.path.dirname(os.path.abspath(__file__))
-<<<<<<< HEAD
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'credentials/translang-234304-576795a36648.json'
-=======
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path+'/credentials/translang-234304-576795a36648.json'
->>>>>>> 84bdec66c6e64ab8fcbad7de99717e018cc3c310
-
 
 #available codes
 #https://developers.google.com/admin-sdk/directory/v1/languages
