@@ -50,10 +50,30 @@ exports.translateV2 = function(req,res){
         return Helper.send400(res, "Usage: /api/translate?text=sentence to translate");
     }
 
-    console.log(`About to call python TransLang_v2.py ${input.path}`);
+
 
     const inputPath = path.join(__dirname, '../../', input.path);
-    const pythonProcess = spawn('python', ['../../TransLang_v2.py', inputPath], {cwd: __dirname});
+    const newInputPath = path.join(__dirname, '../../in.flac');
+
+    console.log(`About to call ffmpeg -i ${inputPath} -f flac ${newInputPath}`);
+    const convertProcess = spawn('ffmpeg', ['-i', inputPath, '-f', 'flac', newInputPath], {cwd: __dirname});
+    convertProcess.on('error', function(err){
+      console.log(err);
+    });
+
+    convertProcess.on('close', function(code){
+      console.log('Convert Exit Code', code);
+      if(code != 0){
+        Helper.send500(res, "File Conversion Error");
+      }
+      fs.unlink(inputPath, (err) => {
+        if(err) throw err;
+        console.log('old input file deleted');
+      });
+    });
+        
+    console.log(`About to call python TransLang_v2.py ${newInputPath}`);
+    const pythonProcess = spawn('python', ['../../TransLang_v2.py', newInputPath], {cwd: __dirname});
 
     pythonProcess.stdout.on('data', (data) => {
         console.log(`Output: ${data}`);
@@ -76,7 +96,7 @@ exports.translateV2 = function(req,res){
         else{
             Helper.send500(res, "Internal Server Error");
         }
-        fs.unlink(inputPath, (err) => {
+        fs.unlink(newInputPath, (err) => {
             if(err) throw err;
             console.log('input file deleted');
         });
