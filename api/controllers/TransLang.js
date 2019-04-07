@@ -53,7 +53,7 @@ exports.translateV2 = function(req,res){
 
 
     const inputPath = path.join(__dirname, '../../', input.path);
-    const newInputPath = path.join(__dirname, '../../in.flac');
+    const newInputPath = path.join(path.dirname(inputPath), 'in.flac');
 
     console.log(`About to call ffmpeg -i ${inputPath} -f flac ${newInputPath}`);
     const convertProcess = spawn('ffmpeg', ['-i', inputPath, '-f', 'flac', newInputPath], {cwd: __dirname});
