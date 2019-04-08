@@ -43,6 +43,9 @@ exports.translate = function(req, res){
 
 exports.translateV2 = function(req,res){
   var input = req.file;
+  var inlang = req.body.inlang;
+  var outlang = req.body.outlang;
+
   console.log(req.body);
   console.log(input);
 
@@ -68,8 +71,8 @@ exports.translateV2 = function(req,res){
     }
     else{
 
-      console.log(`About to call python TransLang_v2.py ${newInputPath}`);
-      const pythonProcess = spawn('python', ['../../TransLang_v2.py', newInputPath], {cwd: __dirname});
+      console.log(`About to call python TransLang_v2.py ${newInputPath} ${inlang} ${outlang}`);
+      const pythonProcess = spawn('python', ['../../TransLang_v2.py', newInputPath, inlang, outlang], {cwd: __dirname});
 
       pythonProcess.stdout.on('data', (data) => {
         console.log(`Output: ${data}`);
