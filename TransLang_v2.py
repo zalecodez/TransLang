@@ -52,7 +52,7 @@ def main():
 
     #Build the voice request,, select language code and the ssml voice gender ("neutral")
     voice = texttospeech.types.VoiceSelectionParams(
-            language_code=target+'-JM',
+            language_code=target+'-US',
             ssml_gender=texttospeech.enums.SsmlVoiceGender.NEUTRAL)
 
     #Select the type of audio file
