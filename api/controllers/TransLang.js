@@ -43,8 +43,8 @@ exports.translate = function(req, res){
 
 exports.translateV2 = function(req,res){
   var input = req.file;
-  var inlang = req.body.inlang;
-  var outlang = req.body.outlang;
+  var inlang = req.body.inlang || 'en-US';
+  var outlang = req.body.outlang || 'es-US';
 
   console.log(req.body);
   console.log(input);
