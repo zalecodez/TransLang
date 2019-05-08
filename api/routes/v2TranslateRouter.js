@@ -7,6 +7,7 @@ var express = require('express'),
 
 var upload = multer({dest: 'tmp/'});
 
-router.post('/', (req, res, next)=>{console.log(req); next();}, upload.single('speechInput'), TransLang.translateV2);
+router.post('/translate', (req, res, next)=>{console.log(req); next();}, upload.single('speechInput'), TransLang.translateV2);
+router.post('/translate-text', (req, res, next)=>{console.log(req); next();}, upload.single('speechInput'), TransLang.translateText);
 
 module.exports = router;

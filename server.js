@@ -55,6 +55,16 @@ io.on('connection', (socket) => {
     io.emit('message', msg);
   });
 
+  socket.on('textMessage', (data) => {
+    translate(data.inlang, data.outlang, data.text)
+    .then((outputPath) => {
+      console.log(outputPath);
+      fs.readFile(outputPath, (err, translation) => {
+        socket.emit('textMessage', translation);
+      });
+    });
+  });
+
   socket.on('voiceMessage', (data) => {
     //var filename = path.basename(data.name);
     //stream.pipe(fs.createWriteStream(filename));
@@ -82,6 +92,7 @@ io.on('connection', (socket) => {
 
 setInterval(() => {
   io.emit('ping', {data: (new Date())/1});
+  io.emit('message', {data: (new Date())/1});
 }, 1000);
 
 http.listen(port, () => {
@@ -142,6 +153,36 @@ const translate = function(inlang, outlang, inputPath){
         if(err) throw err;
         console.log('old input file deleted');
       });
+    });
+  });
+};
+
+translateText = function(inlang, outlang, input){
+  return new Promise((resolve, reject) => {
+    console.log(`About to call python textTransLang.py ${input} ${inlang} ${outlang}`);
+    const pythonProcess = spawn('python', ['../../textTransLang.py', input, inlang, outlang], {cwd: __dirname});
+
+    pythonProcess.stdout.on('data', (data) => {
+      console.log(`Output: ${data}`);
+
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+      console.log(`Error: ${data}`);
+    });
+
+    pythonProcess.on('error', function(err){
+      console.log(err);
+    });
+
+    pythonProcess.on('close', function(code){
+      console.log(`Exit Code: ${code}`);
+      if(code == 0){
+        resolve(path.join(__dirname, 'public/', 'translation.txt'));
+      }
+      else{
+        reject("Internal Server Error");
+      }
     });
   });
 };

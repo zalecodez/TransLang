@@ -43,8 +43,8 @@ exports.translate = function(req, res){
 
 exports.translateV2 = function(req,res){
   var input = req.file;
-  var inlang = req.body.inlang || 'en-US';
-  var outlang = req.body.outlang || 'es-US';
+  var inlang = req.body.inlang || 'en';
+  var outlang = req.body.outlang || 'es';
 
   console.log(req.body);
   console.log(input);
@@ -101,11 +101,49 @@ exports.translateV2 = function(req,res){
         });
       });
     }
-    //fs.unlink(inputPath, (err) => {
-    //  if(err) throw err;
-    //  console.log('old input file deleted');
-    //});
+    fs.unlink(inputPath, (err) => {
+      if(err) throw err;
+      console.log('old input file deleted');
+    });
   });
 
+};
+
+exports.translateText = function(req,res){
+  var input = req.body.text;
+  var inlang = req.body.inlang || 'en';
+  var outlang = req.body.outlang || 'es';
+
+  console.log(req.body);
+  console.log(input);
+
+  if(!input){
+    return Helper.send400(res, "Usage: /api/translate?text=sentence to translate");
+  }
+  console.log(`About to call python textTransLang.py ${input} ${inlang} ${outlang}`);
+  const pythonProcess = spawn('python', ['../../textTransLang.py', input, inlang, outlang], {cwd: __dirname});
+
+  pythonProcess.stdout.on('data', (data) => {
+    console.log(`Output: ${data}`);
+
+  });
+
+  pythonProcess.stderr.on('data', (data) => {
+    console.log(`Error: ${data}`);
+  });
+
+  pythonProcess.on('error', function(err){
+    console.log(err);
+  });
+
+  pythonProcess.on('close', function(code){
+    console.log(`Exit Code: ${code}`);
+    if(code == 0){
+      res.redirect('/translation.txt');
+    }
+    else{
+      Helper.send500(res, "Internal Server Error");
+    }
+  });
 };
 

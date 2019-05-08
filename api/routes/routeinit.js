@@ -7,7 +7,7 @@ var express = require('express'),
 module.exports = function(server){
     server.use('/', indexRouter);
     server.use('/api/translate', translateRouter);
-    server.use('/api/v2/translate', v2TranslateRouter);
+    server.use('/api/v2', v2TranslateRouter);
 };
 
 
