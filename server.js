@@ -56,11 +56,17 @@ io.on('connection', (socket) => {
   });
 
   socket.on('textMessage', (data) => {
-    translate(data.inlang, data.outlang, data.text)
+    translateText(data.inlang, data.outlang, data.text.text)
     .then((outputPath) => {
       console.log(outputPath);
       fs.readFile(outputPath, (err, translation) => {
-        socket.emit('textMessage', translation);
+        const response = {
+          inlang: data.inlang, 
+          outlang: data.outlang,
+          inlangContent: data.text.text,
+          outlangContent: translation.toString(),
+        };
+        socket.emit('textMessage', response);
       });
     });
   });
@@ -83,7 +89,12 @@ io.on('connection', (socket) => {
 
         fs.readFile(outputPath, (err, translatedData) => {
           var base64Audio = new Buffer(translatedData).toString('base64');
-          socket.emit('voiceMessage', base64Audio);
+          socket.emit('voiceMessage', {
+            inlang: data.inlang,
+            outlang: data.outlang,
+            inlangAudio: data.uri,
+            data: base64Audio,
+          });
         });
       });
     });
@@ -92,7 +103,6 @@ io.on('connection', (socket) => {
 
 setInterval(() => {
   io.emit('ping', {data: (new Date())/1});
-  io.emit('message', {data: (new Date())/1});
 }, 1000);
 
 http.listen(port, () => {
@@ -158,9 +168,10 @@ const translate = function(inlang, outlang, inputPath){
 };
 
 translateText = function(inlang, outlang, input){
+  console.log(input);
   return new Promise((resolve, reject) => {
     console.log(`About to call python textTransLang.py ${input} ${inlang} ${outlang}`);
-    const pythonProcess = spawn('python', ['../../textTransLang.py', input, inlang, outlang], {cwd: __dirname});
+    const pythonProcess = spawn('python', ['textTransLang.py', input, inlang, outlang], {cwd: __dirname});
 
     pythonProcess.stdout.on('data', (data) => {
       console.log(`Output: ${data}`);
