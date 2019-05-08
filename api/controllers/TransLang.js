@@ -101,10 +101,10 @@ exports.translateV2 = function(req,res){
         });
       });
     }
-    fs.unlink(inputPath, (err) => {
-      if(err) throw err;
-      console.log('old input file deleted');
-    });
+    //fs.unlink(inputPath, (err) => {
+    //  if(err) throw err;
+    //  console.log('old input file deleted');
+    //});
   });
 
 };
