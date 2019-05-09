@@ -92,8 +92,8 @@ io.on('connection', (socket) => {
           socket.emit('voiceMessage', {
             inlang: data.inlang,
             outlang: data.outlang,
-            inlangAudio: data.uri,
-            data: base64Audio,
+            inlangAudio: data.data,
+            outlangAudio: base64Audio,
           });
         });
       });
